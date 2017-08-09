@@ -14,7 +14,9 @@
 
     
     
-<script> 
+<script>
+$( document ).ready(function() {
+    
  canvas = $("canvas")[0];    
  ctx = canvas.getContext('2d');
  x = 0;
@@ -140,6 +142,8 @@ function gameOver(){
     
         
         timer = setInterval(moveFood, time);
+    
+});
     
     
 </script>
