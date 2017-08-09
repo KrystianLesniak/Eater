@@ -1,0 +1,149 @@
+<head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <style>
+        body{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="500" height="500" style="border:1px solid #000000;"></canvas><br>
+    <span>Score: </span><span id="scoreDisplay">0</span><br>
+    Press spacebar to change color! HF
+
+
+    
+    
+<script> 
+ canvas = $("canvas")[0];    
+ ctx = canvas.getContext('2d');
+ x = 0;
+ y = 480;
+ direction = "right";
+ score = 0;
+ time = 100;
+ eaterColor = "red";
+ foodColor = "green";
+ moveEater();
+ makeFood();
+    
+ function moveEater(){              // Move snake in some direction
+
+ ctx.fillStyle = eaterColor;
+ ctx.clearRect(x, y, 40, 20);       //clear previous eater pos
+   
+     
+    switch(direction) {                 //Detects direction
+    case "right":        
+        x+=20;
+        break;
+    case "left":
+        x-=20;
+        break;
+                    }
+    if(x<0)x=0;
+    if(x>460)x=460;
+    
+    
+     ctx.fillRect(x,y,40,20);           // move head of eater
+     
+ }
+
+    
+ function makeFood(){
+    foodColorNumber = Math.floor((Math.random() * 3) + 1);
+              switch(foodColorNumber){
+                  case 1:
+                      foodColor = "green";
+                      break;
+                  case 2:
+                      foodColor = "blue";
+                      break;
+                  case 3:
+                      foodColor = "red";
+                      break;
+                               }
+    foodX = (Math.floor(Math.random() * 24) + 1)*20;
+    foodY = 0;
+    ctx.fillStyle = foodColor;
+    ctx.fillRect(foodX,foodY,20,20);
+    ctx.fillStyle = eaterColor;
+ }
+    
+function moveFood(){
+    ctx.clearRect(foodX, foodY, 20, 20);
+    foodY += 20;
+    
+    if(foodX == x && foodY == y || foodX == x+20 && foodY == y){     // When food hits eater
+       
+        if(foodColor == eaterColor){
+        score+=50;
+        document.getElementById("scoreDisplay").innerHTML = score;
+        if (time>60)time-=5;
+        makeFood();
+        clearInterval(timer);
+        timer = setInterval(moveFood, time);
+        }else{gameOver();}
+        
+    
+    }
+   
+    
+    if(foodY>500){gameOver();}
+    
+    ctx.fillStyle = foodColor;
+    ctx.fillRect(foodX,foodY,20,20);
+    ctx.fillStyle = eaterColor;
+}
+    
+
+function gameOver(){
+    
+        alert("game over");
+        location.reload();    
+    
+}    
+    
+    
+    
+ $(document).keydown(function(key) {   // Detect key press
+     
+        switch(key.which) {
+    case 39:
+        direction = "right";
+        moveEater();
+        break;
+    case 37:
+        direction = "left";
+        moveEater();
+        break;
+    case 32:
+              switch(eaterColor){
+                  case "red":
+                      eaterColor = "green";
+                      break;
+                  case"green":
+                      eaterColor = "blue";
+                      break;
+                  case "blue":
+                      eaterColor = "red";
+                      break;
+                      
+                               }
+        ctx.fillStyle = eaterColor;
+        ctx.fillRect(x,y,40,20);
+        break;
+            
+                }
+     
+ });
+    
+        
+        timer = setInterval(moveFood, time);
+    
+// setInterval(moveFood, timer);
+    
+    
+</script>
+
+</body>
