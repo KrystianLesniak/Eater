@@ -1,5 +1,7 @@
 <head>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css">
     <style>
         body{
             text-align:center;
@@ -26,6 +28,8 @@ $( document ).ready(function() {
  time = 100;
  eaterColor = "red";
  foodColor = "green";
+ sndBeep = new Audio("beep.wav");
+ sndGameOver = new Audio("game_over.mp3");
  moveEater();
  makeFood();
     
@@ -80,6 +84,7 @@ function moveFood(){
        
         if(foodColor == eaterColor){
         score+=50;
+        sndBeep.play();
         document.getElementById("scoreDisplay").innerHTML = score;
         if (time>60)time-=5;
         makeFood();
@@ -100,9 +105,16 @@ function moveFood(){
     
 
 function gameOver(){
-    
-        alert("game over");
-        location.reload();    
+
+        clearInterval(timer);
+        sndGameOver.play();
+        $("<div title='GAME OVER'>Your score: "+score+"</div>").dialog({
+                close: function( event, ui ) {
+                        location.reload();
+                }
+        });
+        
+            
     
 }    
     
