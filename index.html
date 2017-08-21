@@ -2,16 +2,24 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css">
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaijaan" rel="stylesheet">
     <style>
         body{
             text-align:center;
+            background-color: #d2afff;
+        }
+        canvas{
+            background:url(bg.jpg);
+        }
+        span{
+            font-family: 'Baloo Bhaijaan', cursive;
         }
     </style>
 </head>
 <body>
     <canvas width="500" height="500" style="border:1px solid #000000;"></canvas><br>
-    <span>Score: </span><span id="scoreDisplay">0</span><br>
-    Press spacebar to change color! HF
+    <span style="font-size:200%;">Score: <span id="scoreDisplay">0</span><br>
+    Press spacebar to change color! HF</span>
 
 
     
@@ -108,7 +116,7 @@ function gameOver(){
 
         clearInterval(timer);
         sndGameOver.play();
-        $("<div title='GAME OVER'>Your score: "+score+"</div>").dialog({
+        $("<div title='GAME OVER'><span>Your score: "+score+"</span></div>").dialog({
                 close: function( event, ui ) {
                         location.reload();
                 }
